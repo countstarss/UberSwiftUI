@@ -31,6 +31,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
         // 通过这一步可以验证我们选中的地点已经传到了mapView中,
         if let coordiante = locationViewModel.selectedLocationCoordinate{
             print("DEBUG:Selected coordiante In map view is \(coordiante)")
+            context.coordinator.addAndSelectAnnotation(withCoordinate: coordiante)
         }
     }
     
@@ -46,12 +47,16 @@ extension UberMapViewRepresentable {
     class MapCoordinator : NSObject , MKMapViewDelegate {
         let parent: UberMapViewRepresentable
         
+        
+        //MARK: - Lifecycle
         init(parent: UberMapViewRepresentable) {
             // 初始化,继承
             self.parent = parent
             super.init()
         }
         
+        
+        //MARK: - MKMapViewDelegate
         //MARK: - 设置用户区域(region)
         func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
             let region = MKCoordinateRegion(
@@ -63,6 +68,18 @@ extension UberMapViewRepresentable {
             )
             // 设置用户区域,允许使用动画
             parent.mapView.setRegion(region, animated: true)
+        }
+        
+        //MARK: - helper
+        func addAndSelectAnnotation(withCoordinate coordinate : CLLocationCoordinate2D) {
+            // 添加新的pin之前删除原来的标注
+            parent.mapView.removeAnnotations(parent.mapView.annotations)
+            let anno = MKPointAnnotation()
+            anno.coordinate = coordinate
+            parent.mapView.addAnnotation(anno)
+            parent.mapView.selectAnnotation(anno, animated:true)
+            
+            parent.mapView.showAnnotations(parent.mapView.annotations, animated: true)
         }
     }
 }

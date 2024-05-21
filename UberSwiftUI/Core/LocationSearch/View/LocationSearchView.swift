@@ -40,7 +40,7 @@ struct LocationSearchView: View {
                         .frame(height: 40)
                         .padding(.vertical,2)
                         .padding(.horizontal,16)
-                        .background(Color(.systemGroupedBackground))
+                        .background(Color(.systemGray2))
                         .shadow(color: .gray.opacity(0.4), radius: 6)
                     
                     
@@ -73,6 +73,7 @@ struct LocationSearchView: View {
                             // 通过点击行为选中,调用LocationSearchViewModel中的selectedLocation,传入绑定的title,也就是queryFragment
                             viewModel.selectedLocation(result)
                             showLocationSearchView.toggle()
+                            viewModel.queryFragment = ""
                         }
                     }
                 }.padding(.horizontal,8)
