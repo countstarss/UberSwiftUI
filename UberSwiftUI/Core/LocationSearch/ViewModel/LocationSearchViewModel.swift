@@ -16,7 +16,7 @@ class LocationSearchViewModel:NSObject ,ObservableObject {
     
     
     @Published var results = [MKLocalSearchCompletion]()
-    @Published var selectedLocation : String?
+    @Published var selectedLocationCoordinate : CLLocationCoordinate2D?
     
     
     // 用来搜索
@@ -37,9 +37,33 @@ class LocationSearchViewModel:NSObject ,ObservableObject {
     }
     
     //MARK: - Senction Heading
-    func selectedLocation(_ location : String){
-        self.selectedLocation = location
-        print("DEBUG:queryFragment is \(self.selectedLocation)")
+    func selectedLocation(_ localSearch : MKLocalSearchCompletion){
+        // 调用下面的函数 ,闭包写返回值和error,最后得到coordinate,
+        // 并把coordinate传递给公开的CLLocationCoordinate2D类型 :selectedLocationCoordinate
+        // 然后就可以在mapView中得到经纬度的具体值
+        locationSearch(forLocalSearchCompletion: localSearch) { response, error in
+            if let error = error {
+                print("DEBUG:Location Search Faild with Error : \(error.localizedDescription)")
+                return
+            }
+            
+            guard let item = response?.mapItems.first else { return }
+            let coordinate = item.placemark.coordinate
+            self.selectedLocationCoordinate = coordinate
+            print("DEBUG:Localtion coordinate \(coordinate)")
+        }
+    }
+    
+    // 通过获取的result,逐个进行自然语言搜索
+    func locationSearch(forLocalSearchCompletion localSearch :MKLocalSearchCompletion,
+                        completion:@escaping MKLocalSearch.CompletionHandler){
+        let searchRequest = MKLocalSearch.Request()
+        
+        searchRequest.naturalLanguageQuery = localSearch.title.appending(localSearch.subtitle)
+        let search = MKLocalSearch(request: searchRequest)
+        
+        // 开启搜索
+        search.start(completionHandler: completion)
     }
     
 }

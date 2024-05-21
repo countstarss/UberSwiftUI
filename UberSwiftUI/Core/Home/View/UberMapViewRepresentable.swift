@@ -29,8 +29,8 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
         // 通过这一步可以验证我们选中的地点已经传到了mapView中,
-        if let selectedLocation = locationViewModel.selectedLocation{
-            print("DEBUG:selectedLocation In map view is \(selectedLocation)")
+        if let coordiante = locationViewModel.selectedLocationCoordinate{
+            print("DEBUG:Selected coordiante In map view is \(coordiante)")
         }
     }
     

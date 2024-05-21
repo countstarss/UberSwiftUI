@@ -71,7 +71,7 @@ struct LocationSearchView: View {
                         .onTapGesture {
                             //MARK: - STEP2:选择一个地点并且保存在LocationSearchViewModel中
                             // 通过点击行为选中,调用LocationSearchViewModel中的selectedLocation,传入绑定的title,也就是queryFragment
-                            viewModel.selectedLocation(result.title)
+                            viewModel.selectedLocation(result)
                             showLocationSearchView.toggle()
                         }
                     }
