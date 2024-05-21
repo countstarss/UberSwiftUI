@@ -10,7 +10,8 @@ import SwiftUI
 struct LocationSearchView: View {
     
     @State private var startLocationText :String = "Current location"
-    @State private var endLocationText :String = "Where to?"
+    @State private var destinationLocationText :String = ""
+    @StateObject var viewModel = LocationSearchViewModel()
     
     var body: some View {
         VStack{
@@ -29,8 +30,8 @@ struct LocationSearchView: View {
                         .cornerRadius(5)
                     
                     Rectangle()
-                        .fill(Color(.black))
                         .frame(width: 6,height: 6)
+                        .foregroundStyle(.black)
                 }
                 
                 
@@ -40,14 +41,14 @@ struct LocationSearchView: View {
                         .padding(.vertical,2)
                         .padding(.horizontal,16)
                         .background(Color(.systemGroupedBackground))
-                        .shadow(color: .black.opacity(0.2), radius: 4)
+                        .shadow(color: .gray.opacity(0.4), radius: 6)
                     
-                    TextField("Destination Location",text: $endLocationText)
+                    TextField("Destination Location",text: $viewModel.queryFragment)
                         .frame(height: 40)
                         .padding(.vertical,2)
                         .padding(.horizontal,16)
                         .background(Color(.systemGray4))
-                        .shadow(color: .black.opacity(0.2), radius: 4)
+                        .shadow(color: .gray.opacity(0.4), radius: 6)
                 }
             }
                 .frame(width: UIScreen.main.bounds.width - 48)
@@ -60,8 +61,11 @@ struct LocationSearchView: View {
             // list view
             ScrollView{
                 VStack{
-                    ForEach(0 ... 6,id:\.self) { _ in
-                        LocationSearchResultCell()
+                    ForEach(viewModel.results,id:\.self) { result in
+                        LocationSearchResultCell(
+                            title: result.title,
+                            subTitle: result.subtitle
+                        )
                     }
                 }.padding(.horizontal,8)
             }

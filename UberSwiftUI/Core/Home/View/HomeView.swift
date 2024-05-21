@@ -24,16 +24,15 @@ struct HomeView: View {
                 LocationSearchActivationView()
                     .padding(.vertical,72)
                     .onTapGesture {
-                        showLocationSearchView.toggle()
+                        withAnimation(.easeIn(duration: 0.15)) {
+                            showLocationSearchView.toggle()
+                        }
                     }
             }
             
-            MapViewActionButton()
+            MapViewActionButton(showLocationSearchView: $showLocationSearchView)
                 .padding(.leading,24)
                 .padding(.top,4)
-                .onTapGesture {
-                    showLocationSearchView.toggle()
-                }
         }
     }
 }
