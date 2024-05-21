@@ -10,8 +10,8 @@ import SwiftUI
 struct LocationSearchView: View {
     
     @State private var startLocationText :String = "Current location"
-    @State private var destinationLocationText :String = ""
-    @StateObject var viewModel = LocationSearchViewModel()
+    @Binding var showLocationSearchView : Bool
+    @EnvironmentObject var viewModel : LocationSearchViewModel
     
     var body: some View {
         VStack{
@@ -43,6 +43,8 @@ struct LocationSearchView: View {
                         .background(Color(.systemGroupedBackground))
                         .shadow(color: .gray.opacity(0.4), radius: 6)
                     
+                    
+                    // LocationSearchViewModel中只声明了queryFragment,把这两个视图都添加到viewModel中之后,就可以通过文本框输入给queryFragment值
                     TextField("Destination Location",text: $viewModel.queryFragment)
                         .frame(height: 40)
                         .padding(.vertical,2)
@@ -66,6 +68,12 @@ struct LocationSearchView: View {
                             title: result.title,
                             subTitle: result.subtitle
                         )
+                        .onTapGesture {
+                            //MARK: - STEP2:选择一个地点并且保存在LocationSearchViewModel中
+                            // 通过点击行为选中,调用LocationSearchViewModel中的selectedLocation,传入绑定的title,也就是queryFragment
+                            viewModel.selectedLocation(result.title)
+                            showLocationSearchView.toggle()
+                        }
                     }
                 }.padding(.horizontal,8)
             }
@@ -74,5 +82,5 @@ struct LocationSearchView: View {
 }
 
 #Preview {
-    LocationSearchView()
+    LocationSearchView(showLocationSearchView: .constant(true))
 }

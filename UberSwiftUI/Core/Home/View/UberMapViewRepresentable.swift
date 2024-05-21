@@ -13,9 +13,10 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     
     
     let mapView = MKMapView()
-    
     let locationManager = LocationManager()
-    
+    //MARK: - STEP3:包含LocationSearchViewModel并且观察它,体现在下面的updateUIView中
+    // 创建视图模型的单独实例
+    @EnvironmentObject var locationViewModel : LocationSearchViewModel
     
     func makeUIView(context: Context) -> some UIView {
         mapView.delegate = context.coordinator
@@ -27,7 +28,10 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        
+        // 通过这一步可以验证我们选中的地点已经传到了mapView中,
+        if let selectedLocation = locationViewModel.selectedLocation{
+            print("DEBUG:selectedLocation In map view is \(selectedLocation)")
+        }
     }
     
     func makeCoordinator() -> MapCoordinator {

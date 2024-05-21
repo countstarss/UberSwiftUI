@@ -8,18 +8,24 @@
 import Foundation
 import MapKit
 
+
+//MARK: - STEP1: CREATE LocationSearchViewModel
 class LocationSearchViewModel:NSObject ,ObservableObject {
     
     //MARK: - Proporities
     
+    
     @Published var results = [MKLocalSearchCompletion]()
+    @Published var selectedLocation : String?
+    
+    
     // 用来搜索
     private let searchCompleter = MKLocalSearchCompleter()
     // 查询片段
     var queryFragment : String = "" {
         // didSet意味着queryFragment每次改变都会调用下面的代码
         didSet{
-            print("DEBUG:queryFragment is \(queryFragment)")
+//            print("DEBUG:queryFragment is \(queryFragment)")
             searchCompleter.queryFragment = queryFragment
         }
     }
@@ -28,6 +34,12 @@ class LocationSearchViewModel:NSObject ,ObservableObject {
         super.init()
         searchCompleter.delegate = self
         searchCompleter.queryFragment = queryFragment
+    }
+    
+    //MARK: - Senction Heading
+    func selectedLocation(_ location : String){
+        self.selectedLocation = location
+        print("DEBUG:queryFragment is \(self.selectedLocation)")
     }
     
 }

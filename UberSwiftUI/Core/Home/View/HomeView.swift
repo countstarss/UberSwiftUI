@@ -17,7 +17,7 @@ struct HomeView: View {
                 .ignoresSafeArea()
             
             if !showLocationSearchView{
-                LocationSearchView()
+                LocationSearchView(showLocationSearchView: $showLocationSearchView)
                     .frame(maxWidth: .infinity,maxHeight: .infinity)
                     .background(Color(.systemGray6))
             }else{
