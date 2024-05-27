@@ -12,8 +12,6 @@ struct RideRequestView: View {
     
     var body: some View {
         VStack{
-            
-            Spacer()
             Capsule()
                 .foregroundColor(Color(.systemGray5))
                 .frame(width: 48,height: 6)
@@ -147,10 +145,13 @@ struct RideRequestView: View {
                     .background(Color(.systemBlue))
                     .cornerRadius(10)
             }
-            .padding(.bottom,40)
+            .padding(.bottom,30)
             
 
         }
+        .background(.ultraThinMaterial)
+//        .background(.blue)
+        .cornerRadius(30)
     }
 }
 

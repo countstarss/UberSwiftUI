@@ -113,6 +113,8 @@ extension UberMapViewRepresentable {
             parent.mapView.addAnnotation(anno)
             parent.mapView.selectAnnotation(anno, animated:true)
             
+            
+            // 地图显示动画
             parent.mapView.showAnnotations(parent.mapView.annotations, animated: true)
         }
         
@@ -123,6 +125,19 @@ extension UberMapViewRepresentable {
             getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
 
                 self.parent.mapView.addOverlay(route.polyline)
+                
+                //MARK: - 设置聚焦区域
+                let rect = self.parent.mapView.mapRectThatFits(
+                    route.polyline.boundingMapRect,
+                    edgePadding: .init(
+                        top: 64,
+                        left: 32,
+                        bottom: 500,
+                        right: 32
+                    )
+                )
+                //MARK: - 限定聚焦区域
+                self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
             }
         }
         
