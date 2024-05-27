@@ -17,6 +17,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     //MARK: - STEP3:包含LocationSearchViewModel并且观察它,体现在下面的updateUIView中
     // 创建视图模型的单独实例
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
+    @Binding var mapState :MapViewState
     
     func makeUIView(context: Context) -> some UIView {
         mapView.delegate = context.coordinator
@@ -28,13 +29,25 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
+        print("DEBUG : MapState is \(mapState)")
         // 通过这一步可以验证我们选中的地点已经传到了mapView中,
-        if let coordiante = locationViewModel.selectedLocationCoordinate{
-            print("DEBUG:Selected coordiante In map view is \(coordiante)")
-            // SelectAnnotation
-            context.coordinator.addAndSelectAnnotation(withCoordinate: coordiante)
-            // 配置Polyline 04
-            context.coordinator.configurePolyline(withDestinationCoordinate: coordiante)
+        
+        switch mapState {
+        case .noInput:
+            context.coordinator.clearMapViewAndRecenterUserLocation()
+            break
+        case .searchingForLocation:
+            break
+        case .locationSelected:
+            // 点击搜索结果进入locationSelected状态再添加标记和规划路径
+            if let coordiante = locationViewModel.selectedLocationCoordinate{
+                print("DEBUG:Selected coordiante In map view is \(coordiante)")
+                // SelectAnnotation
+                context.coordinator.addAndSelectAnnotation(withCoordinate: coordiante)
+                // 配置Polyline 04
+                context.coordinator.configurePolyline(withDestinationCoordinate: coordiante)
+            }
+            break
         }
     }
     
@@ -50,6 +63,7 @@ extension UberMapViewRepresentable {
     class MapCoordinator : NSObject , MKMapViewDelegate {
         let parent: UberMapViewRepresentable
         var userLocationCoordinate : CLLocationCoordinate2D?
+        var currentRegion :MKCoordinateRegion?
         
         
         //MARK: - Lifecycle
@@ -71,6 +85,9 @@ extension UberMapViewRepresentable {
                 ),
                 span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             )
+            
+            self.currentRegion = region
+            
             // 设置用户区域,允许使用动画
             parent.mapView.setRegion(region, animated: true)
         }
@@ -129,6 +146,17 @@ extension UberMapViewRepresentable {
                 // 这里只取了第一条route,以后可能会需要多条路线,都生成,让用户选择
                 guard let route = response?.routes.first else { return }
                 completion(route)
+            }
+        }
+        
+        func clearMapViewAndRecenterUserLocation(){
+            parent.mapView.removeAnnotations(parent.mapView.annotations)
+            parent.mapView.removeOverlays(parent.mapView.overlays)
+            
+            // region 是初始化的region, 声明一个currentRegion之后,保存原始region
+            // 后续添加了mappin和Polyline,如果想要返回原始状态,就setRegion为currentRegion
+            if let currentRegion = currentRegion{
+                parent.mapView.setRegion(currentRegion, animated: true)
             }
         }
     }

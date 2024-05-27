@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF4B9B1C2C04173E001A28A9 /* MapViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4B9B1B2C04173E001A28A9 /* MapViewState.swift */; };
 		DFD172762BFC222500D9E13F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD172752BFC222500D9E13F /* LocationManager.swift */; };
 		DFD1727C2BFC2E0600D9E13F /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD1727B2BFC2E0600D9E13F /* LocationSearchActivationView.swift */; };
 		DFD1727E2BFC31A700D9E13F /* MapViewActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD1727D2BFC31A700D9E13F /* MapViewActionButton.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DF4B9B1B2C04173E001A28A9 /* MapViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewState.swift; sourceTree = "<group>"; };
 		DFD172752BFC222500D9E13F /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		DFD1727B2BFC2E0600D9E13F /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		DFD1727D2BFC31A700D9E13F /* MapViewActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewActionButton.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		DFFEC7062BFBACBB00B46949 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DF4B9B1B2C04173E001A28A9 /* MapViewState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				DFD172842BFC44BD00D9E13F /* LocationSearchViewModel.swift in Sources */,
 				DFD172802BFC330D00D9E13F /* LocationSearchView.swift in Sources */,
 				DFD172762BFC222500D9E13F /* LocationManager.swift in Sources */,
+				DF4B9B1C2C04173E001A28A9 /* MapViewState.swift in Sources */,
 				DFD1727E2BFC31A700D9E13F /* MapViewActionButton.swift in Sources */,
 				DFFEC6F52BFBABA800B46949 /* UberSwiftUIApp.swift in Sources */,
 				DFFEC70C2BFBAD9600B46949 /* UberMapViewRepresentable.swift in Sources */,

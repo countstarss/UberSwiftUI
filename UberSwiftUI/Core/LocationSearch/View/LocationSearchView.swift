@@ -10,8 +10,10 @@ import SwiftUI
 struct LocationSearchView: View {
     
     @State private var startLocationText :String = "Current location"
-    @Binding var showLocationSearchView : Bool
+//    @Binding var showLocationSearchView : Bool
     @EnvironmentObject var viewModel : LocationSearchViewModel
+    // // View State Management 03
+    @Binding var mapState :MapViewState
     
     var body: some View {
         VStack{
@@ -72,7 +74,9 @@ struct LocationSearchView: View {
                             //MARK: - STEP2:选择一个地点并且保存在LocationSearchViewModel中
                             // 通过点击行为选中,调用LocationSearchViewModel中的selectedLocation,传入绑定的title,也就是queryFragment
                             viewModel.selectedLocation(result)
-                            showLocationSearchView.toggle()
+//                            showLocationSearchView.toggle()
+                            mapState = .locationSelected
+                            // 将搜索框置空
                             viewModel.queryFragment = ""
                         }
                     }
@@ -83,5 +87,5 @@ struct LocationSearchView: View {
 }
 
 #Preview {
-    LocationSearchView(showLocationSearchView: .constant(true))
+    LocationSearchView(mapState: .constant(.searchingForLocation))
 }

@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MapViewActionButton: View {
     
-    @Binding var showLocationSearchView : Bool
+//    @Binding var showLocationSearchView : Bool
+    @Binding var mapState : MapViewState
+    
+    
     var body: some View {
-            Image(systemName: !showLocationSearchView ? "chevron.backward" : "line.3.horizontal")
-//            Image(systemName:"chevron.backward")
-//            Image(systemName:"line.3.horizontal")
+            Image(systemName: imageNameForState(mapState))
                 .font(.title3)
                 .foregroundColor(.black)
                 .frame(width: 12,height:12)
@@ -24,14 +25,32 @@ struct MapViewActionButton: View {
                 .shadow(color: .black.opacity(0.3),radius: 6)
                 .frame(maxWidth: .infinity,alignment: .leading)
                 .onTapGesture {
-                    if !showLocationSearchView {
-                        showLocationSearchView.toggle()
-                    }
+                    actionForState(mapState)
                 }
                 
+    }
+    
+    func actionForState(_ state:MapViewState) {
+        switch state{
+        case .noInput:
+            print("DEBUG : noInput")
+        case .searchingForLocation :
+            mapState = .noInput
+            print("DEBUG : back to HomeView")
+        case .locationSelected :
+            mapState = .noInput
+        }
+    }
+    func imageNameForState(_ state: MapViewState)-> String{
+        switch state{
+        case .noInput:
+            return "line.3.horizontal"
+        case .searchingForLocation,.locationSelected :
+            return "chevron.backward"
+        }
     }
 }
 
 #Preview {
-    MapViewActionButton(showLocationSearchView: .constant(true))
+    MapViewActionButton(mapState: .constant(.noInput))
 }
