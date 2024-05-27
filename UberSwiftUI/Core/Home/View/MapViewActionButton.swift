@@ -11,6 +11,7 @@ struct MapViewActionButton: View {
     
 //    @Binding var showLocationSearchView : Bool
     @Binding var mapState : MapViewState
+    @EnvironmentObject var viewModel : LocationSearchViewModel
     
     
     var body: some View {
@@ -39,6 +40,7 @@ struct MapViewActionButton: View {
             print("DEBUG : back to HomeView")
         case .locationSelected :
             mapState = .noInput
+            viewModel.selectedLocationCoordinate = nil
         }
     }
     func imageNameForState(_ state: MapViewState)-> String{

@@ -41,6 +41,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
         case .locationSelected:
             // 点击搜索结果进入locationSelected状态再添加标记和规划路径
             if let coordiante = locationViewModel.selectedLocationCoordinate{
+                
                 print("DEBUG:Selected coordiante In map view is \(coordiante)")
                 // SelectAnnotation
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordiante)
