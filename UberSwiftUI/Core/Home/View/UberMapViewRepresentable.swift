@@ -31,7 +31,9 @@ struct UberMapViewRepresentable: UIViewRepresentable {
         // 通过这一步可以验证我们选中的地点已经传到了mapView中,
         if let coordiante = locationViewModel.selectedLocationCoordinate{
             print("DEBUG:Selected coordiante In map view is \(coordiante)")
+            // SelectAnnotation
             context.coordinator.addAndSelectAnnotation(withCoordinate: coordiante)
+            // 配置Polyline 04
             context.coordinator.configurePolyline(withDestinationCoordinate: coordiante)
         }
     }
@@ -73,7 +75,7 @@ extension UberMapViewRepresentable {
             parent.mapView.setRegion(region, animated: true)
         }
         
-        // 生成polyline
+        // 生成polyline 03
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) ->
         MKOverlayRenderer {
             
@@ -81,7 +83,6 @@ extension UberMapViewRepresentable {
             polyline.strokeColor = .systemBlue
             polyline.lineWidth = 6
             return polyline
-            
         }
         
         //MARK: - helper
@@ -98,7 +99,7 @@ extension UberMapViewRepresentable {
             parent.mapView.showAnnotations(parent.mapView.annotations, animated: true)
         }
         
-        
+        // 配置Polyline 02
         func configurePolyline(withDestinationCoordinate coordinate : CLLocationCoordinate2D) {
             guard let userLocationCoordinate = self.userLocationCoordinate else { return }
             
@@ -108,6 +109,7 @@ extension UberMapViewRepresentable {
             }
         }
         
+        // 配置Polyline 01
         func getDestinationRoute(from userLocation: CLLocationCoordinate2D,
                                  to destination :CLLocationCoordinate2D,
                                  completion :@escaping(MKRoute) -> Void) {
