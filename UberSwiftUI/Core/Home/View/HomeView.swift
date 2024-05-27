@@ -35,19 +35,6 @@ struct HomeView: View {
                     .background(Color(.systemGray6))
                 
             }
-//            if !showLocationSearchView{
-//                LocationSearchView(showLocationSearchView: $showLocationSearchView)
-//                    .frame(maxWidth: .infinity,maxHeight: .infinity)
-//                    .background(Color(.systemGray6))
-//            }else{
-//                LocationSearchActivationView()
-//                    .padding(.vertical,72)
-//                    .onTapGesture {
-//                        withAnimation(.easeIn(duration: 0.15)) {
-//                            showLocationSearchView.toggle()
-//                        }
-//                    }
-//            }
             
             MapViewActionButton(mapState: $mapState)
                 .padding(.leading,24)
