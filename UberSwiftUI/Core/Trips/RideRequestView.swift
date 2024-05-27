@@ -10,6 +10,7 @@ import SwiftUI
 struct RideRequestView: View {
     
     @State private var selectedRideType: RideType = .white
+    @EnvironmentObject var locationViewModel : LocationSearchViewModel
     
     var body: some View {
         VStack{
@@ -86,12 +87,13 @@ struct RideRequestView: View {
                             Image(type.imageName)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 90,height: 100)
-                                .background(Color(.systemPink))
                                 .cornerRadius(15)
-                            VStack(spacing:4){
+                                .frame(width: 90,height: 100)
+                                .padding(6)
+                                
+                            VStack(alignment:.leading,spacing:4){
                                 Text(type.description)
-                                Text("$\(type.price)/mile")
+                                Text("\(locationViewModel.computeRidePrice(forType: type).toCurrency())")
                             }
                             .font(.system(size: 14).weight(.semibold))
                             .padding(4)

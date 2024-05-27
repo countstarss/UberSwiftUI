@@ -13,7 +13,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     
     
     let mapView = MKMapView()
-    let locationManager = LocationManager()
+    let locationManager = LocationManager.shared
     //MARK: - STEP3:包含LocationSearchViewModel并且观察它,体现在下面的updateUIView中
     // 创建视图模型的单独实例
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
