@@ -13,7 +13,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     
     
     let mapView = MKMapView()
-    let locationManager = LocationManager.shared
+//    let locationManager = LocationManager.shared
     //MARK: - STEP3:包含LocationSearchViewModel并且观察它,体现在下面的updateUIView中
     // 创建视图模型的单独实例
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
@@ -40,7 +40,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
             break
         case .locationSelected:
             // 点击搜索结果进入locationSelected状态再添加标记和规划路径
-            if let coordiante = locationViewModel.selectedLocationCoordinate{
+            if let coordiante = locationViewModel.selectedUberLocation?.coordinate{
                 
                 print("DEBUG:Selected coordiante In map view is \(coordiante)")
                 // SelectAnnotation
@@ -123,7 +123,7 @@ extension UberMapViewRepresentable {
         func configurePolyline(withDestinationCoordinate coordinate : CLLocationCoordinate2D) {
             guard let userLocationCoordinate = self.userLocationCoordinate else { return }
             
-            getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
+            parent.locationViewModel.getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
 
                 self.parent.mapView.addOverlay(route.polyline)
                 
@@ -143,27 +143,7 @@ extension UberMapViewRepresentable {
         }
         
         // 配置Polyline 01
-        func getDestinationRoute(from userLocation: CLLocationCoordinate2D,
-                                 to destination :CLLocationCoordinate2D,
-                                 completion :@escaping(MKRoute) -> Void) {
-            let userPlaceMark = MKPlacemark(coordinate: userLocation)
-            let destPlaceMark = MKPlacemark(coordinate: destination)
-            let request = MKDirections.Request()
-            request.source = MKMapItem(placemark: userPlaceMark)
-            request.destination = MKMapItem(placemark: destPlaceMark)
-            
-            let direction = MKDirections(request: request)
-            
-            direction.calculate { response,error in
-                if let error = error {
-                    print("DEBUG:Failed to get direction with error : \(error.localizedDescription)")
-                    return
-                }
-                // 这里只取了第一条route,以后可能会需要多条路线,都生成,让用户选择
-                guard let route = response?.routes.first else { return }
-                completion(route)
-            }
-        }
+        
         
         func clearMapViewAndRecenterUserLocation(){
             parent.mapView.removeAnnotations(parent.mapView.annotations)

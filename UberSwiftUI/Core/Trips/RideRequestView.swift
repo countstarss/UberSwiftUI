@@ -12,6 +12,8 @@ struct RideRequestView: View {
     @State private var selectedRideType: RideType = .white
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
     
+    
+    
     var body: some View {
         VStack{
             Capsule()
@@ -44,19 +46,21 @@ struct RideRequestView: View {
                             .padding(.horizontal,16)
                         
                         Spacer()
-                        Text("1:30 PM")
+                        Text(locationViewModel.pickUpTime ?? "")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
                     
                     HStack {
-                        Text("Destination Location")
-                            .frame(height: 40)
-                            .padding(.vertical,2)
-                            .padding(.horizontal,16)
+                        if let location = locationViewModel.selectedUberLocation{
+                            Text(location.title)
+                                .frame(height: 40)
+                                .padding(.vertical,2)
+                                .padding(.horizontal,16)
+                        }
                         
                         Spacer()
-                        Text("2:20 PM")
+                        Text(locationViewModel.dropOffTime ?? "")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }

@@ -40,7 +40,7 @@ struct MapViewActionButton: View {
             print("DEBUG : back to HomeView")
         case .locationSelected :
             mapState = .noInput
-            viewModel.selectedLocationCoordinate = nil
+            viewModel.selectedUberLocation = nil
         }
     }
     func imageNameForState(_ state: MapViewState)-> String{
