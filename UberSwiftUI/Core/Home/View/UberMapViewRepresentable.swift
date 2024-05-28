@@ -42,12 +42,16 @@ struct UberMapViewRepresentable: UIViewRepresentable {
             // 点击搜索结果进入locationSelected状态再添加标记和规划路径
             if let coordiante = locationViewModel.selectedUberLocation?.coordinate{
                 
-                print("DEBUG:Selected coordiante In map view is \(coordiante)")
+//                print("DEBUG:Selected coordiante In map view is \(coordiante)")
+                print("DEBUG: Adding stuff to map...")
                 // SelectAnnotation
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordiante)
                 // 配置Polyline 04
                 context.coordinator.configurePolyline(withDestinationCoordinate: coordiante)
+                
             }
+            break
+        case .polylineAdded:
             break
         }
     }
@@ -126,7 +130,7 @@ extension UberMapViewRepresentable {
             parent.locationViewModel.getDestinationRoute(from: userLocationCoordinate , to: coordinate) { route in
 
                 self.parent.mapView.addOverlay(route.polyline)
-                
+                self.parent.mapState = .polylineAdded
                 //MARK: - 设置聚焦区域
                 let rect = self.parent.mapView.mapRectThatFits(
                     route.polyline.boundingMapRect,

@@ -38,7 +38,7 @@ struct MapViewActionButton: View {
         case .searchingForLocation :
             mapState = .noInput
             print("DEBUG : back to HomeView")
-        case .locationSelected :
+        case .locationSelected,.polylineAdded :
             mapState = .noInput
             viewModel.selectedUberLocation = nil
         }
@@ -48,6 +48,8 @@ struct MapViewActionButton: View {
         case .noInput:
             return "line.3.horizontal"
         case .searchingForLocation,.locationSelected :
+            return "chevron.backward"
+        case .polylineAdded:
             return "chevron.backward"
         }
     }

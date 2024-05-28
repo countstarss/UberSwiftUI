@@ -105,10 +105,9 @@ struct RideRequestView: View {
                         .padding(4)
                         // 根据状态切换效果
                         .foregroundColor(type == selectedRideType ?
-                            .white  : .black)
-                        .background(Color(type == selectedRideType ?
-                             .systemBlue : .systemGroupedBackground
-                        ))
+                            .white  : Color.theme.secondaryTextColor)
+//                        .background(Color.theme.ridesBackground)
+                        .background(type == selectedRideType ? .blue : Color.theme.ridesBackground)
                         .scaleEffect(type == selectedRideType ?
                             1.08 : 1
                         )
